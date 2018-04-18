@@ -1,0 +1,85 @@
+---
+title: "CollegeAdmit"
+author: "Quynh Tran"
+date: "April 14, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+
+library(partykit)
+library (dplyr)
+library (ISLR)
+library (ROCR)
+library (rpart)
+library (tidyverse)
+library (broom)
+
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/admit_data_all_uc.csv'
+admit_alldata <- read_csv(file = file_path, col_names=TRUE)
+
+##file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Berkeley.csv'
+##admit_Berkdata <- read_csv(file = file_path)
+
+
+admit_alldata
+##admit_Berkdata
+```
+
+```{r}
+admit_data <- spread(data=admit_alldata, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app)
+
+admit_data
+
+```
+
+```{r}
+
+names(admit_data)[3]<-"County"
+names(admit_data)[1]<-"SchoolID"
+##admit_data[10] <- NULL
+admit_data
+
+```
+
+
+```{r}
+
+Alameda <- admit_data %>% 
+  filter(County=="Alameda")
+
+Alameda
+
+
+
+```
+
+
+```{r}
+  ggplot(data=Alameda)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2)
+    
+```
+```{r}
+tree_mod <- rpart(AdmitStat ~ City + Race, data = Alameda) 
+plot(as.party(tree_mod))
+```
+
+
+```{r}
+Admittance <- glm(AdmitStat ~ City, data = Alameda)
+# take a look at the features and coefficients
+tidy(Admittance)
+```
+
+
+
+
+
+
+
