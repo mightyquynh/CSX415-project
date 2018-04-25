@@ -2,7 +2,9 @@
 title: "CollegeAdmit"
 author: "Quynh Tran"
 date: "April 14, 2018"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -22,37 +24,164 @@ library (broom)
 file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/admit_data_all_uc.csv'
 admit_alldata <- read_csv(file = file_path, col_names=TRUE)
 
-##file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Berkeley.csv'
-##admit_Berkdata <- read_csv(file = file_path)
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Berkeley.csv'
+Berkeley <- read_csv(file = file_path)
 
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Davis.csv'
+Davis<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Irvine.csv'
+Irvine<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/LosAngeles_all.csv'
+LA_all<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Merced.csv'
+Merced<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Riverside.csv'
+Riverside<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/SanDiego.csv'
+SanDiego<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/SantaBarb.csv'
+SantaBarb<- read_csv(file = file_path, col_names=TRUE)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/SantaCruz.csv'
+SantaCruz<- read_csv(file = file_path, col_names=TRUE)
 
 admit_alldata
-##admit_Berkdata
+Berkeley
+
 ```
 
 ```{r}
-admit_data <- spread(data=admit_alldata, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app)
+
+```
+
+
+  
+  
+```{r}
+admit_data <- spread(data=admit_alldata, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="All", Year=2017)
+
+Berkeley_admit <- spread(data=Berkeley, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Berkeley", Year=2017) 
+
+Davis_admit <- spread(data=Davis, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Davis", Year=2017) 
+
+Irvine_admit <- spread(data=Irvine, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Irvine", Year=2017) 
+
+LA_all_admit <- spread(data=LA_all, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="LosAng", Year=2017) 
+
+Merced_admit <- spread(data=Merced, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Merced", Year=2017) 
+
+Riverside_admit <- spread(data=Riverside, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Riverside", Year=2017) 
+
+SanDiego_admit <- spread(data=SanDiego, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="SanDiego", Year=2017) 
+
+SantaBarb_admit <- spread(SantaBarb, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="SantaBarb", Year=2017) 
+
+SantaCruz_admit <- spread(data=SantaCruz, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="SantaCruz", Year=2017) 
+
 
 admit_data
+Berkeley_admit
+Davis_admit
+Irvine_admit
+LA_all_admit
+Merced_admit
+Riverside_admit
+SanDiego_admit
+SantaBarb_admit
+SantaCruz_admit
 
 ```
 
 ```{r}
-
-names(admit_data)[3]<-"County"
 names(admit_data)[1]<-"SchoolID"
+names(admit_data)[3]<-"County"
+
+All_campus <- admit_data %>% 
+  filter(County=="Alameda")
 ##admit_data[10] <- NULL
-admit_data
 
-```
+All_campus
 
+names(Berkeley_admit)[1]<-"SchoolID"
+names(Berkeley_admit)[3]<-"County"
+names(Berkeley_admit)[4]<-"School"
+names(Berkeley_admit)[5]<-"Race"
 
-```{r}
+Berkeley_admit
 
-Alameda <- admit_data %>% 
+names(Davis_admit)[1]<-"SchoolID"
+names(Davis_admit)[3]<-"County"
+names(Davis_admit)[4]<-"School"
+names(Davis_admit)[5]<-"Race"
+
+Davis_admit
+
+names(Irvine_admit)[1]<-"SchoolID"
+names(Irvine_admit)[3]<-"County"
+names(Irvine_admit)[4]<-"School"
+names(Irvine_admit)[5]<-"Race"
+
+Irvine_admit
+
+names(LA_all_admit)[1]<-"SchoolID"
+names(LA_all_admit)[3]<-"County"
+names(LA_all_admit)[4]<-"School"
+names(LA_all_admit)[5]<-"Race"
+
+LA_all_admit
+
+LA_admit <- LA_all_admit %>% 
   filter(County=="Alameda")
 
-Alameda
+LA_admit
+
+names(Merced_admit)[1]<-"SchoolID"
+names(Merced_admit)[3]<-"County"
+names(Merced_admit)[4]<-"School"
+names(Merced_admit)[5]<-"Race"
+
+Merced_admit
+
+names(Riverside_admit)[1]<-"SchoolID"
+names(Riverside_admit)[3]<-"County"
+names(Riverside_admit)[4]<-"School"
+names(Riverside_admit)[5]<-"Race"
+
+Riverside_admit
+
+names(SanDiego_admit)[1]<-"SchoolID"
+names(SanDiego_admit)[3]<-"County"
+names(SanDiego_admit)[4]<-"School"
+names(SanDiego_admit)[5]<-"Race"
+
+SanDiego_admit
+
+names(SantaBarb_admit)[1]<-"SchoolID"
+names(SantaBarb_admit)[3]<-"County"
+names(SantaBarb_admit)[4]<-"School"
+names(SantaBarb_admit)[5]<-"Race"
+
+SantaBarb_admit
+
+names(SantaCruz_admit)[1]<-"SchoolID"
+names(SantaCruz_admit)[3]<-"County"
+names(SantaCruz_admit)[4]<-"School"
+names(SantaCruz_admit)[5]<-"Race"
+
+SantaCruz_admit
+
+
+```
+
+
+```{r}
+
 
 
 
@@ -60,21 +189,133 @@ Alameda
 
 
 ```{r}
-  ggplot(data=Alameda)+
+  ggplot(data=All_campus)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
-    facet_wrap(~ City, nrow = 2)
+    facet_wrap(~ City, nrow = 2)+
+  labs (y="All campus admissions", x='2017')
     
+
+ ggplot(data=Berkeley_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "Berkeley admissions", x="2017")
+ 
+ ggplot(data=Davis_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "Davis admissions", x="2017")
+ 
+ ggplot(data=Irvine_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "Irvine admissions", x="2017")
+ 
+ ggplot(data=LA_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "Los Angeles admissions", x="2017")
+ 
+ ggplot(data=Merced_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "Merced admissions", x="2017")
+ 
+ ggplot(data=Riverside_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "Riverside admissions", x="2017")
+ 
+ ggplot(data=SanDiego_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "San Diego admissions", x="2017")
+ 
+ ggplot(data=SantaBarb_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "SantaBarb admissions", x="2017")
+ 
+ ggplot(data=SantaCruz_admit)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
+    facet_wrap(~ City, nrow = 2) +
+ labs(y= "SantaCruz admissions", x="2017")
+ 
 ```
 ```{r}
-tree_mod <- rpart(AdmitStat ~ City + Race, data = Alameda) 
-plot(as.party(tree_mod))
+tree_modAll <- rpart(AdmitStat ~ City + Race, data = All_campus) 
+plot(as.party(tree_modAll))
+
+tree_modBerkeley <- rpart(AdmitStat ~ City + Race, data = Berkeley_admit) 
+plot(as.party(tree_modBerkeley))
+
+tree_modDavis <- rpart(AdmitStat ~ City + Race, data = Davis_admit) 
+plot(as.party(tree_modDavis))
+
+tree_modIrvine <- rpart(AdmitStat ~ City + Race, data = Irvine_admit) 
+plot(as.party(tree_modIrvine))
+
+tree_modLA <- rpart(AdmitStat ~ City + Race, data = LA_admit) 
+plot(as.party(tree_modLA))
+
+tree_modMerced <- rpart(AdmitStat ~ City + Race, data = Merced_admit) 
+plot(as.party(tree_modMerced))
+
+tree_modRiverside <- rpart(AdmitStat ~ City + Race, data = Riverside_admit) 
+plot(as.party(tree_modRiverside))
+
+tree_modSanDiego <- rpart(AdmitStat ~ City + Race, data = SanDiego_admit) 
+plot(as.party(tree_modSanDiego))
+
+tree_modSantaBarb <- rpart(AdmitStat ~ City + Race, data = SantaBarb_admit) 
+plot(as.party(tree_modSantaBarb))
+
+tree_modSantaCruz <- rpart(AdmitStat ~ City + Race, data = SantaCruz_admit) 
+plot(as.party(tree_modSantaCruz))
+
+
 ```
 
 
 ```{r}
-Admittance <- glm(AdmitStat ~ City, data = Alameda)
+AdmittanceAll <- lm(AdmitStat ~ City + Race, data = All_campus)
 # take a look at the features and coefficients
-tidy(Admittance)
+tidy(AdmittanceAll)
+
+AdmittanceBerk <- lm(AdmitStat ~ City + Race, data = Berkeley_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceBerk)
+
+AdmittanceDavis<- lm(AdmitStat ~ City + Race, data = Davis_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceDavis)
+
+AdmittanceIrvine <- lm(AdmitStat ~ City + Race, data = Irvine_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceBerk)
+
+AdmittanceLA <- lm(AdmitStat ~ City + Race, data = LA_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceLA)
+
+AdmittanceMerced <- lm(AdmitStat ~ City + Race, data = Merced_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceMerced)
+
+AdmittanceRiverside<- lm(AdmitStat ~ City + Race, data = Riverside_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceRiverside)
+
+AdmittanceSanDiego <- lm(AdmitStat ~ City + Race, data = SanDiego_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceSanDiego)
+
+AdmittanceSantaBarb <- lm(AdmitStat ~ City + Race, data = SantaBarb_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceSantaBarb)
+
+AdmittanceSantaCruz <- lm(AdmitStat ~ City + Race, data = SantaCruz_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceSantaCruz)
 ```
 
 
