@@ -1,0 +1,53 @@
+---
+title: "model-performance-linear"
+author: "Quynh Tran"
+date: "April 24, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+AdmittanceAll <- lm(AdmitStat ~ City + Race, data = All_campus)
+# take a look at the features and coefficients
+tidy(AdmittanceAll)
+
+AdmittanceBerk <- lm(AdmitStat ~ City + Race, data = Berkeley_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceBerk)
+
+AdmittanceDavis<- lm(AdmitStat ~ City + Race, data = Davis_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceDavis)
+
+AdmittanceIrvine <- lm(AdmitStat ~ City + Race, data = Irvine_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceBerk)
+
+AdmittanceLA <- lm(AdmitStat ~ City + Race, data = LA_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceLA)
+
+AdmittanceMerced <- lm(AdmitStat ~ City + Race, data = Merced_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceMerced)
+
+AdmittanceRiverside<- lm(AdmitStat ~ City + Race, data = Riverside_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceRiverside)
+
+AdmittanceSanDiego <- lm(AdmitStat ~ City + Race, data = SanDiego_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceSanDiego)
+
+AdmittanceSantaBarb <- lm(AdmitStat ~ City + Race, data = SantaBarb_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceSantaBarb)
+
+AdmittanceSantaCruz <- lm(AdmitStat ~ City + Race, data = SantaCruz_admit)
+# take a look at the features and coefficients
+tidy(AdmittanceSantaCruz)
+```

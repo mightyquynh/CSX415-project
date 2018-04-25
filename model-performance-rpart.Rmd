@@ -1,0 +1,41 @@
+---
+title: "model-perfomance-rpart"
+author: "Quynh Tran"
+date: "April 24, 2018"
+output: html_document
+---
+
+
+```{r}
+
+tree_modAll <- rpart(AdmitStat ~ City + Race, data = All_campus) 
+plot(as.party(tree_modAll))
+
+tree_modBerkeley <- rpart(AdmitStat ~ City + Race, data = Berkeley_admit) 
+plot(as.party(tree_modBerkeley))
+
+tree_modDavis <- rpart(AdmitStat ~ City + Race, data = Davis_admit) 
+plot(as.party(tree_modDavis))
+
+tree_modIrvine <- rpart(AdmitStat ~ City + Race, data = Irvine_admit) 
+plot(as.party(tree_modIrvine))
+
+tree_modLA <- rpart(AdmitStat ~ City + Race, data = LA_admit) 
+plot(as.party(tree_modLA))
+
+tree_modMerced <- rpart(AdmitStat ~ City + Race, data = Merced_admit) 
+plot(as.party(tree_modMerced))
+
+tree_modRiverside <- rpart(AdmitStat ~ City + Race, data = Riverside_admit) 
+plot(as.party(tree_modRiverside))
+
+tree_modSanDiego <- rpart(AdmitStat ~ City + Race, data = SanDiego_admit) 
+plot(as.party(tree_modSanDiego))
+
+tree_modSantaBarb <- rpart(AdmitStat ~ City + Race, data = SantaBarb_admit) 
+plot(as.party(tree_modSantaBarb))
+
+tree_modSantaCruz <- rpart(AdmitStat ~ City + Race, data = SantaCruz_admit) 
+plot(as.party(tree_modSantaCruz))
+
+```
