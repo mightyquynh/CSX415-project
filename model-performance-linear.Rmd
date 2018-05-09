@@ -9,6 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+
+```
 
 ```{r}
 AdmittanceAll <- lm(AdmitStat ~ City + Race, data = All_campus)

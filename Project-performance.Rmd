@@ -3,8 +3,8 @@ title: "CollegeAdmit"
 author: "Quynh Tran"
 date: "April 14, 2018"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,14 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ```{r}
 
-library(partykit)
-library (dplyr)
-library (ISLR)
-library (ROCR)
-library (rpart)
-library (tidyverse)
-library (broom)
 
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/SingleFamilyResidence2018AlamedaCty.csv'
+RealEstate <- read_csv(file = file_path)
+
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/school_zip.csv'
+school_zip <- read_csv(file = file_path)
 
 file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/admit_data_all_uc.csv'
 admit_alldata <- read_csv(file = file_path, col_names=TRUE)
@@ -33,8 +32,8 @@ Davis<- read_csv(file = file_path, col_names=TRUE)
 file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Irvine.csv'
 Irvine<- read_csv(file = file_path, col_names=TRUE)
 
-file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/LosAngeles_all.csv'
-LA_all<- read_csv(file = file_path, col_names=TRUE)
+file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/LA.csv'
+LA<- read_csv(file = file_path, col_names=TRUE)
 
 file_path <- '~/compscix415-DataSciencePrinciples/DataSciencePrinciples/data/Merced.csv'
 Merced<- read_csv(file = file_path, col_names=TRUE)
@@ -53,17 +52,16 @@ SantaCruz<- read_csv(file = file_path, col_names=TRUE)
 
 admit_alldata
 Berkeley
+school_zip
 
 ```
-
-```{r}
-
-```
-
-
   
   
 ```{r}
+
+
+library (dplyr)
+
 admit_data <- spread(data=admit_alldata, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="All", Year=2017)
 
 Berkeley_admit <- spread(data=Berkeley, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Berkeley", Year=2017) 
@@ -72,7 +70,7 @@ Davis_admit <- spread(data=Davis, key="Measure Names", value="Measure Values") %
 
 Irvine_admit <- spread(data=Irvine, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Irvine", Year=2017) 
 
-LA_all_admit <- spread(data=LA_all, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="LosAng", Year=2017) 
+LA_admit <- spread(data=LA, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="LosAng", Year=2017) 
 
 Merced_admit <- spread(data=Merced, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Merced", Year=2017) 
 
@@ -89,156 +87,175 @@ admit_data
 Berkeley_admit
 Davis_admit
 Irvine_admit
-LA_all_admit
-Merced_admit
-Riverside_admit
-SanDiego_admit
-SantaBarb_admit
-SantaCruz_admit
-
-```
-
-```{r}
-names(admit_data)[1]<-"SchoolID"
-names(admit_data)[3]<-"County"
-
-All_campus <- admit_data %>% 
-  filter(County=="Alameda")
-##admit_data[10] <- NULL
-
-All_campus
-
-names(Berkeley_admit)[1]<-"SchoolID"
-names(Berkeley_admit)[3]<-"County"
-names(Berkeley_admit)[4]<-"School"
-names(Berkeley_admit)[5]<-"Race"
-
-Berkeley_admit
-
-names(Davis_admit)[1]<-"SchoolID"
-names(Davis_admit)[3]<-"County"
-names(Davis_admit)[4]<-"School"
-names(Davis_admit)[5]<-"Race"
-
-Davis_admit
-
-names(Irvine_admit)[1]<-"SchoolID"
-names(Irvine_admit)[3]<-"County"
-names(Irvine_admit)[4]<-"School"
-names(Irvine_admit)[5]<-"Race"
-
-Irvine_admit
-
-names(LA_all_admit)[1]<-"SchoolID"
-names(LA_all_admit)[3]<-"County"
-names(LA_all_admit)[4]<-"School"
-names(LA_all_admit)[5]<-"Race"
-
-LA_all_admit
-
-LA_admit <- LA_all_admit %>% 
-  filter(County=="Alameda")
-
 LA_admit
-
-names(Merced_admit)[1]<-"SchoolID"
-names(Merced_admit)[3]<-"County"
-names(Merced_admit)[4]<-"School"
-names(Merced_admit)[5]<-"Race"
-
 Merced_admit
-
-names(Riverside_admit)[1]<-"SchoolID"
-names(Riverside_admit)[3]<-"County"
-names(Riverside_admit)[4]<-"School"
-names(Riverside_admit)[5]<-"Race"
-
 Riverside_admit
-
-names(SanDiego_admit)[1]<-"SchoolID"
-names(SanDiego_admit)[3]<-"County"
-names(SanDiego_admit)[4]<-"School"
-names(SanDiego_admit)[5]<-"Race"
-
 SanDiego_admit
-
-names(SantaBarb_admit)[1]<-"SchoolID"
-names(SantaBarb_admit)[3]<-"County"
-names(SantaBarb_admit)[4]<-"School"
-names(SantaBarb_admit)[5]<-"Race"
-
 SantaBarb_admit
-
-names(SantaCruz_admit)[1]<-"SchoolID"
-names(SantaCruz_admit)[3]<-"County"
-names(SantaCruz_admit)[4]<-"School"
-names(SantaCruz_admit)[5]<-"Race"
-
 SantaCruz_admit
 
+```
+```{r}
+total <-rbind (Berkeley_admit, Davis_admit, Irvine_admit, LA_admit, Merced_admit, Riverside_admit, SanDiego_admit, SantaBarb_admit, SantaCruz_admit)
+
+total
+
+```
+
+```{r}
+zipped <- merge (total, school_zip, "Calculation1") 
+zipped
 
 ```
 
 
+
 ```{r}
+names(zipped)[1]<-"SchoolID"
+names(zipped)[3]<-"County"
+names(zipped)[5]<-"Race"
 
+zipped
+```
 
+```{r}
+All_zip <- merge (zipped, RealEstate,"Zipcode") 
 
+names(All_zip)[5]<-"School"
+names(All_zip)[17]<-"Jan2018"
+names(All_zip)[18]<-"Feb2018"
+names(All_zip)[19]<-"March2018"
+
+All_zip
 
 ```
 
+```{r}
+##All_zip <- mutate(data=All_zip, AvgHomePrice2018=(Jan2018+Feb2018+March2018)/3)
+
+All_zip
+```
+
+library (ISLR)
+library (ROCR)
+library (rpart)
+library (tidyverse)
+library (broom)
+library(partykit)
 
 ```{r}
-  ggplot(data=All_campus)+
-    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
-    facet_wrap(~ City, nrow = 2)+
+
+##ggplot(df, aes(x=weight)) + geom_histogram()    
+  
+```
+
+
+
+
+```{r}
+  ggplot(data=All_zip)+
+    geom_point(mapping= aes(x=School, y=AdmitStat, color=Race)) +
+    facet_wrap(~ School, nrow = 2)+
   labs (y="All campus admissions", x='2017')
     
+ggplot(All_zip, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+  labs (y="All campus admissions 2017")
+```
+```{r}
+
+
 
  ggplot(data=Berkeley_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "Berkeley admissions", x="2017")
  
+ ggplot(Berkeley_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="Berkeley admissions 2017")
+ 
  ggplot(data=Davis_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "Davis admissions", x="2017")
+ 
+ ggplot(Davis_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip()+
+   labs (y="Davis admissions 2017")
  
  ggplot(data=Irvine_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "Irvine admissions", x="2017")
  
+ ggplot(Irvine_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="Irvine admissions 2017")
+ 
  ggplot(data=LA_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "Los Angeles admissions", x="2017")
+ 
+ ggplot(LA_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip()+
+   labs (y="LA admissions 2017")
  
  ggplot(data=Merced_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "Merced admissions", x="2017")
  
+ ggplot(Merced_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="Merced admissions 2017")
+ 
  ggplot(data=Riverside_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "Riverside admissions", x="2017")
+ 
+ ggplot(Riverside_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="Riverside admissions 2017")
  
  ggplot(data=SanDiego_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "San Diego admissions", x="2017")
  
+ ggplot(SanDiego_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="San Diego admissions 2017")
+ 
  ggplot(data=SantaBarb_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "SantaBarb admissions", x="2017")
  
+ ggplot(SantaBarb_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="Santa Barbara admissions 2017")
+ 
  ggplot(data=SantaCruz_admit)+
     geom_point(mapping= aes(x=School, y=AdmitStat, color=Race))+
     facet_wrap(~ City, nrow = 2) +
  labs(y= "SantaCruz admissions", x="2017")
+ 
+ ggplot(SantaCruz_admit, aes(x=AdmitStat))+
+    geom_histogram () +
+coord_flip() +
+   labs (y="Santa Cruz admissions 2017")
  
 ```
 ```{r}

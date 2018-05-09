@@ -1,0 +1,80 @@
+---
+title: "Munge data"
+author: "Quynh Tran"
+date: "5/8/2018"
+output: html_document
+---
+
+  
+```{r}
+
+
+library (dplyr)
+
+admit_data <- spread(data=admit_alldata, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="All", Year=2017)
+
+Berkeley_admit <- spread(data=Berkeley, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Berkeley", Year=2017) 
+
+Davis_admit <- spread(data=Davis, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Davis", Year=2017) 
+
+Irvine_admit <- spread(data=Irvine, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Irvine", Year=2017) 
+
+LA_admit <- spread(data=LA, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="LosAng", Year=2017) 
+
+Merced_admit <- spread(data=Merced, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Merced", Year=2017) 
+
+Riverside_admit <- spread(data=Riverside, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="Riverside", Year=2017) 
+
+SanDiego_admit <- spread(data=SanDiego, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="SanDiego", Year=2017) 
+
+SantaBarb_admit <- spread(SantaBarb, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="SantaBarb", Year=2017) 
+
+SantaCruz_admit <- spread(data=SantaCruz, key="Measure Names", value="Measure Values") %>% mutate(AdmitStat=adm/app, Campus="SantaCruz", Year=2017) 
+
+
+admit_data
+Berkeley_admit
+Davis_admit
+Irvine_admit
+LA_admit
+Merced_admit
+Riverside_admit
+SanDiego_admit
+SantaBarb_admit
+SantaCruz_admit
+
+```
+```{r}
+total <-rbind (Berkeley_admit, Davis_admit, Irvine_admit, LA_admit, Merced_admit, Riverside_admit, SanDiego_admit, SantaBarb_admit, SantaCruz_admit)
+
+total
+
+```
+
+```{r}
+zipped <- merge (total, school_zip, "Calculation1") 
+zipped
+
+```
+
+
+
+```{r}
+names(zipped)[1]<-"SchoolID"
+names(zipped)[3]<-"County"
+names(zipped)[5]<-"Race"
+
+zipped
+```
+
+```{r}
+All_zip <- merge (zipped, RealEstate,"Zipcode") 
+
+names(All_zip)[5]<-"School"
+names(All_zip)[17]<-"Jan2018"
+names(All_zip)[18]<-"Feb2018"
+names(All_zip)[19]<-"March2018"
+
+All_zip
+
+```
